@@ -110,7 +110,8 @@ bool Darwin::hasBlocksRuntime() const {
 
 static const char *GetArmArchForMArch(StringRef Value) {
   return llvm::StringSwitch<const char*>(Value)
-    .Case("armv6k", "armv6")
+    .Case("armv6", "armv6")
+    .Case("armv6k", "armv6k")
     .Case("armv6m", "armv6m")
     .Case("armv5tej", "armv5")
     .Case("xscale", "xscale")
@@ -131,7 +132,8 @@ static const char *GetArmArchForMCpu(StringRef Value) {
     .Cases("arm10e", "arm10tdmi", "armv5")
     .Cases("arm1020t", "arm1020e", "arm1022e", "arm1026ej-s", "armv5")
     .Case("xscale", "xscale")
-    .Cases("arm1136j-s", "arm1136jf-s", "arm1176jz-s", "arm1176jzf-s", "armv6")
+    .Cases("arm1136j-s", "arm1136jf-s", "armv6")
+    .Cases("arm1176jz-s", "arm1176jzf-s", "armv6k")
     .Cases("sc000", "cortex-m0", "cortex-m0plus", "cortex-m1", "armv6m")
     .Cases("cortex-a5", "cortex-a7", "cortex-a8", "armv7")
     .Cases("cortex-a9", "cortex-a12", "cortex-a15", "cortex-a17", "krait", "armv7")
@@ -849,6 +851,8 @@ DerivedArgList *MachO::TranslateArgs(const DerivedArgList &Args,
     else if (Name == "xscale")
       DAL->AddJoinedArg(nullptr, MArch, "xscale");
     else if (Name == "armv6")
+      DAL->AddJoinedArg(nullptr, MArch, "armv6");
+    else if (Name == "armv6k")
       DAL->AddJoinedArg(nullptr, MArch, "armv6k");
     else if (Name == "armv6m")
       DAL->AddJoinedArg(nullptr, MArch, "armv6m");
